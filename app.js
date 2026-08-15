@@ -87,7 +87,7 @@ function rowsToEvents(rows){
     const annee = parseFloat(get('annee'));
     return {
       id: get('id') || ('evt-'+i),
-      annee: isNaN(annee) ? 0 : annee,
+      annee: isNaN(annee) ? null : annee,
       date_affichee: get('date_affichee') || get('annee'),
       lieu: get('lieu'),
       lat: parseFloat(get('latitude')),
@@ -99,8 +99,9 @@ function rowsToEvents(rows){
       videos,
       auteur: get('auteur'),
       sources: get('sources'),
+      date_publication: get('date_publication')
     };
-  }).filter(e => !isNaN(e.annee));
+  });
 }
 
 // ============================================================
@@ -156,7 +157,7 @@ function matchesSearch(ev, q){
   return hay.includes(q.toLowerCase());
 }
 function filteredEvents(){
-  return state.all.filter(ev=>{
+    return state.all.filter(ev=>{
     const themeOk = state.activeThemes.size===0 || state.activeThemes.has(ev.theme);
     const zoneOk = state.activeZones.size===0 || state.activeZones.has(ev.zone_geo);
     const rangeOk = !state.focusRange || (ev.annee>=state.focusRange.min && ev.annee<state.focusRange.max);
