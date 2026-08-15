@@ -21,6 +21,11 @@
   </div>
 </header>
 
+<div class="view-tabs">
+  <button class="pill view-tab active" data-view="frise">Frise chronologique</button>
+  <button class="pill view-tab" data-view="hors-frise">Articles hors frise</button>
+</div>
+  
 <div class="top-grid">
 <div class="controls">
   <div class="search-wrap">
@@ -53,6 +58,8 @@
   <p class="empty-state" id="emptyState" hidden>Aucun événement ne correspond à cette recherche — encore un pan de l'histoire à explorer autrement.</p>
 </main>
 
+<section class="offline-list" id="offlineList" hidden></section>  
+  
 <footer><span id="countLabel"></span></footer>
 
 <div class="scrim" id="scrim"></div>
