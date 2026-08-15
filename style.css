@@ -134,6 +134,13 @@ button{font-family:inherit; cursor:pointer;}
 .offline-card h3{font-family:'Fraunces', serif; font-size:1.15rem; margin:0 0 .4rem;}
 .offline-card p{font-size:.92rem; color:var(--text-dim); line-height:1.5; margin:0 0 .6rem;}
 .offline-card .oc-read{font-family:'JetBrains Mono', monospace; font-size:.78rem; color:var(--gold);}
+.reader{position:fixed; inset:0; z-index:40; background:var(--parchment); color:var(--ink-text); overflow-y:auto; transform:translateY(100%); transition:transform .25s ease;}
+.reader.open{transform:translateY(0);}
+.reader-inner{max-width:720px; margin:0 auto; padding:3rem 1.5rem 5rem;}
+.reader-close{position:sticky; top:1rem; margin-bottom:2rem; background:var(--ink-text); color:var(--parchment); border:none; border-radius:999px; padding:.5rem 1.1rem; font-family:'JetBrains Mono', monospace; font-size:.8rem;}
+.reader h2{font-family:'Fraunces', serif; font-size:2rem; margin:0 0 .4rem;}
+.reader .r-meta{font-family:'JetBrains Mono', monospace; font-size:.85rem; color:#5b5240; margin-bottom:2rem;}
+.reader .r-article p{font-size:1.08rem; line-height:1.75; margin:0 0 1.3rem;}
 
 footer{padding:1.8rem 6vw 2.6rem; color:var(--text-dim); font-family:'JetBrains Mono', monospace; font-size:.76rem; border-top:1px solid var(--ink-line);}
 
