@@ -2,6 +2,12 @@
 // CONFIGURATION — c'est la seule chose à modifier pour brancher
 // votre propre Google Sheet publié en CSV (voir README.md).
 // ============================================================
+
+const state = {
+  all: [], search:'', activeThemes:new Set(), activeZones:new Set(),
+  zoomLevel:'siecle', focusRange:null, view:'frise'
+};
+
 const CONFIG = {
   SHEET_CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrMYhk1z8dvjZe6Ulzz687IIvaWpONQVNWQcp4JMujVOoOAWeigZuaUnKcpsswgcs2w2eFTT6WpKSk/pub?gid=0&single=true&output=csv'
 };
@@ -157,12 +163,22 @@ function matchesSearch(ev, q){
   return hay.includes(q.toLowerCase());
 }
 function filteredEvents(){
-    return state.all.filter(ev=>{
+  const base = state.all.filter(ev=>{
     const themeOk = state.activeThemes.size===0 || state.activeThemes.has(ev.theme);
     const zoneOk = state.activeZones.size===0 || state.activeZones.has(ev.zone_geo);
-    const rangeOk = !state.focusRange || (ev.annee>=state.focusRange.min && ev.annee<state.focusRange.max);
-    return themeOk && zoneOk && rangeOk && matchesSearch(ev, state.search);
-  }).sort((a,b)=>a.annee-b.annee);
+    return themeOk && zoneOk && matchesSearch(ev, state.search);
+  });
+
+  const dated = base
+    .filter(ev => ev.annee !== null)
+    .filter(ev => !state.focusRange || (ev.annee>=state.focusRange.min && ev.annee<state.focusRange.max))
+    .sort((a,b)=>a.annee-b.annee);
+
+  const undated = base
+    .filter(ev => ev.annee === null)
+    .sort((a,b)=> (b.date_publication||'').localeCompare(a.date_publication||''));
+
+  return { dated, undated };
 }
 
 // ============================================================
@@ -411,15 +427,33 @@ function closePanel(){
 
 // ============================================================
 // ORCHESTRATION
-// ============================================================
 function renderAll(){
-  const list = filteredEvents();
-  renderTimeline(list);
-  renderMap(list);
+  const { dated, undated } = filteredEvents();
+  if(state.view === 'frise'){ renderTimeline(dated); renderMap(dated); }
+  else { renderUndatedList(undated); }
   syncZoomButtons();
+  const total = dated.length + undated.length;
   document.getElementById('countLabel').textContent =
-    list.length + ' histoire' + (list.length>1?'s':'') + ' affichée' + (list.length>1?'s':'') + ' — '
+    total + ' histoire' + (total>1?'s':'') + ' affichée' + (total>1?'s':'') + ' — '
     + state.all.filter(e=>!e.auteur).length + ' en attente d\'auteur·ice sur l\'ensemble du fil.';
+}
+
+function renderUndatedList(list){
+  const el = document.getElementById('offlineList');
+  el.innerHTML = '';
+  if(!list.length){ el.innerHTML = '<p class="empty-state">Aucun article hors frise pour l\'instant.</p>'; return; }
+  list.forEach(ev=>{
+    const card = document.createElement('button');
+    card.className = 'offline-card';
+    card.style.setProperty('--node-color', catColor(ev.theme));
+    const extract = (ev.resume && ev.resume[0]) ? ev.resume[0].slice(0,180) + (ev.resume[0].length>180 ? '…' : '') : '';
+    card.innerHTML =
+      '<div class="oc-theme">'+escapeHtml(ev.theme||'Non classé')+'</div>'
+      +'<h3>'+escapeHtml(ev.lieu || ev.date_affichee || 'Sans titre')+'</h3>'
+      +'<p>'+escapeHtml(extract)+'</p><span class="oc-read">Lire →</span>';
+    card.addEventListener('click', ()=>openPanel(ev.id));
+    el.appendChild(card);
+  });
 }
 
 async function init(){
