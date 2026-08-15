@@ -126,6 +126,14 @@ button{font-family:inherit; cursor:pointer;}
 .p-author{margin-top:1.3rem; padding-top:1rem; border-top:1px dashed var(--parchment-dark); font-family:'JetBrains Mono', monospace; font-size:.74rem; color:#5b5240;}
 .p-author .name{color:var(--ink-text); font-weight:700;}
 .p-author.unassigned{color:var(--rust);}
+.view-tabs{padding:1rem 6vw 0; display:flex; gap:.5rem;}
+.offline-list{padding:1.5rem 6vw 3rem; display:flex; flex-direction:column; gap:1rem;}
+.offline-card{text-align:left; background:var(--ink-soft); border:1px solid var(--ink-line); border-left:4px solid var(--node-color, var(--gold)); border-radius:10px; padding:1.2rem 1.4rem; color:var(--text); cursor:pointer; transition:.15s;}
+.offline-card:hover{border-color:var(--node-color, var(--gold));}
+.offline-card .oc-theme{font-family:'JetBrains Mono', monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--node-color, var(--gold)); margin-bottom:.4rem;}
+.offline-card h3{font-family:'Fraunces', serif; font-size:1.15rem; margin:0 0 .4rem;}
+.offline-card p{font-size:.92rem; color:var(--text-dim); line-height:1.5; margin:0 0 .6rem;}
+.offline-card .oc-read{font-family:'JetBrains Mono', monospace; font-size:.78rem; color:var(--gold);}
 
 footer{padding:1.8rem 6vw 2.6rem; color:var(--text-dim); font-family:'JetBrains Mono', monospace; font-size:.76rem; border-top:1px solid var(--ink-line);}
 
