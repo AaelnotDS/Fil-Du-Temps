@@ -7,12 +7,12 @@ const CONFIG = {
 };
 
 const CATEGORIES = [
-  {label:'Résistances', color:'var(--rust)'},
-  {label:'Sociétés & pouvoirs', color:'var(--gold)'},
+  {label:'Résistances', color:'var(--red)'},
+  {label:'Sociétés & pouvoirs', color:'var(--blue)'},
   {label:'Sciences & savoirs', color:'var(--teal)'},
-  {label:'Explorations & échanges', color:'var(--teal)'},
+  {label:'Explorations & échanges', color:'var(--gold)'},
   {label:'Luttes sociales', color:'var(--rust)'},
-  {label:'Figures oubliées', color:'var(--gold)'},
+  {label:'Figures oubliées', color:'var(--grey)'},
 ];
 const DEFAULT_COLOR = 'var(--text-dim)';
 
