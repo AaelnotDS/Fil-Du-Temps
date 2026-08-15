@@ -59,7 +59,7 @@ button{font-family:inherit; cursor:pointer;}
 
 /* MAP */
 .map-section{padding:0;}
-.map-frame{position:relative; aspect-ratio:1/1; width:100%; border-radius:12px; overflow:hidden; border:1px solid var(--ink-line);}
+.map-frame{position:relative; z-index:1; height:340px; border-radius:12px; overflow:hidden; border:1px solid var(--ink-line);}
 #map{height:100%; width:100%; background:var(--ink-soft);}
 .map-hint{font-family:'JetBrains Mono', monospace; font-size:.72rem; color:var(--text-dim); margin:.5rem 0 0;}
 .leaflet-popup-content-wrapper{background:var(--parchment); color:var(--ink-text); border-radius:8px;}
