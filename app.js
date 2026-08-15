@@ -312,7 +312,12 @@ function makeGroupNode(label, items, bucket, level, i){
 // RENDU — CARTE
 // ============================================================
 function initMap(){
-  map = L.map('map', {scrollWheelZoom:false}).setView([20,10], 2);
+  map = L.map('map', {
+  scrollWheelZoom:false,
+  worldCopyJump:true,
+  maxBounds: [[-85.06, -420], [85.06, 420]],
+  maxBoundsViscosity: 1.0
+}).setView([20,10], 2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap',
     maxZoom: 18
