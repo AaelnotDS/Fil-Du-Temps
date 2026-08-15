@@ -106,6 +106,7 @@ function rowsToEvents(rows){
       auteur: get('auteur'),
       sources: get('sources'),
       date_publication: get('date_publication')
+      texte_complet: get('article_complet').split('||').map(s=>s.trim()).filter(Boolean),
     };
   });
 }
@@ -407,12 +408,19 @@ function openPanel(id){
     ? '<div class="p-figures"><b>Figures liées :</b> '+ev.personnages.map(escapeHtml).join(', ')+'</div>'
     : '';
 
+  const readMoreHtml = (ev.texte_complet && ev.texte_complet.length)
+    ? '<button class="video-btn" id="openReader" style="width:100%; justify-content:center; margin-top:1rem;">Lire l\'article complet →</button>'
+    : '';
+  
   content.innerHTML =
     '<div class="p-cat"><span class="dot"></span>'+escapeHtml(ev.theme||'Non classé')+'</div>'
     +'<h2>'+escapeHtml(ev.lieu||ev.date_affichee)+'</h2>'
     +'<p class="p-meta">'+escapeHtml(ev.date_affichee)+(ev.lieu?' · '+escapeHtml(ev.lieu):'')+'</p>'
     +'<div class="p-article">'+(ev.resume||[]).map(p=>'<p>'+escapeHtml(p)+'</p>').join('')+'</div>'
-    +figuresHtml + videosHtml + authorHtml;
+    +figuresHtml + videosHtml + authorHtml + readMoreHtml;
+   
+  const readBtn = document.getElementById('openReader');
+if(readBtn) readBtn.addEventListener('click', ()=>openReader(ev));
 
   content.style.setProperty('--p-color', color);
   panel.classList.add('open');
@@ -423,6 +431,20 @@ function closePanel(){
   document.getElementById('panel').classList.remove('open');
   document.getElementById('panel').setAttribute('aria-hidden','true');
   document.getElementById('scrim').classList.remove('open');
+}
+
+function openReader(ev){
+  const reader = document.getElementById('reader');
+  document.getElementById('readerContent').innerHTML =
+    '<h2>'+escapeHtml(ev.lieu||ev.date_affichee)+'</h2>'
+    +'<p class="r-meta">'+escapeHtml(ev.date_affichee)+(ev.lieu?' · '+escapeHtml(ev.lieu):'')+'</p>'
+    +'<div class="r-article">'+ev.texte_complet.map(p=>'<p>'+escapeHtml(p)+'</p>').join('')+'</div>';
+  reader.classList.add('open');
+  reader.setAttribute('aria-hidden','false');
+}
+function closeReader(){
+  document.getElementById('reader').classList.remove('open');
+  document.getElementById('reader').setAttribute('aria-hidden','true');
 }
 
 // ============================================================
@@ -457,9 +479,10 @@ function renderUndatedList(list){
 }
 
 async function init(){
+  document.getElementById('readerClose').addEventListener('click', closeReader);
   document.getElementById('panelClose').addEventListener('click', closePanel);
   document.getElementById('scrim').addEventListener('click', closePanel);
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePanel(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeReader(); closePanel(); } });
   document.getElementById('search').addEventListener('input', e=>{
     state.search = e.target.value; renderAll();
   });
