@@ -476,6 +476,17 @@ async function init(){
     renderAll();
   });
 
+  document.querySelectorAll('.view-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    state.view = btn.dataset.view;
+    document.querySelectorAll('.view-tab').forEach(b=>b.classList.toggle('active', b===btn));
+    document.querySelector('.map-section').hidden = state.view !== 'frise';
+    document.querySelector('main').hidden = state.view !== 'frise';
+    document.getElementById('offlineList').hidden = state.view === 'frise';
+    renderAll();
+  });
+});
+
   initMap();
   state.all = await loadEvents();
   renderEras();
