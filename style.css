@@ -38,10 +38,6 @@ button{font-family:inherit; cursor:pointer;}
 .hero h1{font-family:'Fraunces', serif; font-weight:600; font-size:clamp(2.2rem, 5.5vw, 3.8rem); line-height:1.02; margin:0 0 1rem;}
 .hero h1 em{font-style:italic; color:var(--gold);}
 .hero p.tagline{font-size:1.02rem; line-height:1.6; color:var(--text-dim); max-width:52ch; margin:0;}
-.demo-badge{
-  display:inline-block; margin-top:1.2rem; font-family:'JetBrains Mono', monospace; font-size:.72rem;
-  color:var(--ink); background:var(--gold); border-radius:5px; padding:.3rem .6rem; letter-spacing:.04em;
-}
 
 /* CONTROLS */
 .controls{background:var(--ink-soft); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:.7rem;}
