@@ -158,6 +158,7 @@ footer{padding:1.8rem 6vw 2.6rem; color:var(--text-dim); font-family:'JetBrains 
   align-items:start;
   padding:1.2rem 6vw;
 }
+.top-grid.full-width{ grid-template-columns: 1fr; }
 @media (max-width:900px){
   .top-grid{ grid-template-columns:1fr; }
 }
