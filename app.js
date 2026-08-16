@@ -201,10 +201,15 @@ function renderEras(){
 
 function renderThemeChips(){
   const row = document.getElementById('themeRow');
-  const present = [...new Set(state.all.flatMap(e=>e.theme).filter(Boolean))];
+  row.querySelectorAll('.chip').forEach(c=>c.remove());
+  const source = state.view === 'frise'
+    ? state.all.filter(e=>e.annee!==null)
+    : state.all.filter(e=>e.annee===null);
+  const present = [...new Set(source.flatMap(e=>e.theme).filter(Boolean))];
   present.forEach(theme=>{
     const chip = document.createElement('button');
     chip.className = 'chip';
+    if(state.activeThemes.has(theme)) chip.classList.add('active');
     chip.style.setProperty('--chip-color', catColor(theme));
     chip.innerHTML = '<span class="dot"></span>' + theme;
     chip.addEventListener('click', ()=>{
@@ -504,6 +509,10 @@ async function init(){
     document.querySelector('.map-section').hidden = state.view !== 'frise';
     document.querySelector('main').hidden = state.view !== 'frise';
     document.getElementById('offlineList').hidden = state.view === 'frise';
+    document.querySelector('.top-grid').classList.toggle('full-width', state.view !== 'frise'); // ← nouvelle ligne
+    document.querySelector('.top-grid').classList.toggle('full-width', state.view !== 'frise');
+    state.activeThemes.clear();       // ← évite qu'un filtre invisible bloque tout
+    renderThemeChips();               // ← reconstruit la liste pour la vue active
     renderAll();
   });
 });
