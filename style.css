@@ -142,6 +142,15 @@ button{font-family:inherit; cursor:pointer;}
 .reader h2{font-family:'Fraunces', serif; font-size:2rem; margin:0 0 .4rem;}
 .reader .r-meta{font-family:'JetBrains Mono', monospace; font-size:.85rem; color:#5b5240; margin-bottom:2rem;}
 .reader .r-article p{font-size:1.08rem; line-height:1.75; margin:0 0 1.3rem;}
+.reader .r-sub{
+  font-family:'JetBrains Mono', monospace; font-size:.78rem; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--rust); margin:2rem 0 .8rem; padding-top:1.2rem;
+  border-top:1px dashed var(--parchment-dark);
+}
+.reader .r-bullet{
+  position:relative; padding-left:1.3rem; margin:0 0 .8rem; font-size:1.02rem; line-height:1.6;
+}
+.reader .r-bullet::before{ content:'—'; position:absolute; left:0; color:var(--rust); }
 
 @media (max-width:640px){
   .hero{padding:3rem 6vw 2.2rem;}
