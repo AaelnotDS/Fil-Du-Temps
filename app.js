@@ -100,7 +100,7 @@ function rowsToEvents(rows){
       lat: parseFloat(get('latitude')),
       lng: parseFloat(get('longitude')),
       theme: get('theme').split(';').map(s=>s.trim()).filter(Boolean),
-      _geo: get('_geo'),
+      zone_geo: get('zone_geo'),
       personnages: get('personnages').split(';').map(s=>s.trim()).filter(Boolean),
       resume: get('resume').split('||').map(s=>s.trim()).filter(Boolean),
       videos,
