@@ -100,7 +100,7 @@ function rowsToEvents(rows){
       lat: parseFloat(get('latitude')),
       lng: parseFloat(get('longitude')),
       theme: get('theme').split(';').map(s=>s.trim()).filter(Boolean),
-      zone_geo: get('zone_geo'),
+      _geo: get('_geo'),
       personnages: get('personnages').split(';').map(s=>s.trim()).filter(Boolean),
       resume: get('resume').split('||').map(s=>s.trim()).filter(Boolean),
       videos,
@@ -228,7 +228,6 @@ function renderZoneChips(){
   present.forEach(zone=>{
     const chip = document.createElement('button');
     chip.className = 'chip';
-    chip.style.setProperty('--chip-color', 'var(--teal)');
     chip.innerHTML = '<span class="dot"></span>' + zone;
     chip.addEventListener('click', ()=>{
       if(state.activeZones.has(zone)){ state.activeZones.delete(zone); chip.classList.remove('active'); }
