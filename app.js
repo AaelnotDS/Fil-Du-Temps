@@ -228,6 +228,7 @@ function renderZoneChips(){
   present.forEach(zone=>{
     const chip = document.createElement('button');
     chip.className = 'chip';
+    chip.style.setProperty('--chip-color')
     chip.innerHTML = '<span class="dot"></span>' + zone;
     chip.addEventListener('click', ()=>{
       if(state.activeZones.has(zone)){ state.activeZones.delete(zone); chip.classList.remove('active'); }
