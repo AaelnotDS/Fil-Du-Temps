@@ -143,8 +143,6 @@ button{font-family:inherit; cursor:pointer;}
 .reader .r-meta{font-family:'JetBrains Mono', monospace; font-size:.85rem; color:#5b5240; margin-bottom:2rem;}
 .reader .r-article p{font-size:1.08rem; line-height:1.75; margin:0 0 1.3rem;}
 
-footer{padding:1.8rem 6vw 2.6rem; color:var(--text-dim); font-family:'JetBrains Mono', monospace; font-size:.76rem; border-top:1px solid var(--ink-line);}
-
 @media (max-width:640px){
   .hero{padding:3rem 6vw 2.2rem;}
   .node{width:96px;}
