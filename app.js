@@ -444,10 +444,15 @@ function closePanel(){
 
 function openReader(ev){
   const reader = document.getElementById('reader');
+  const body = ev.texte_complet.map(p=>{
+    if(p.startsWith('## ')) return '<h3 class="r-sub">'+escapeHtml(p.slice(3).trim())+'</h3>';
+    if(p.startsWith('- ')) return '<p class="r-bullet">'+escapeHtml(p.slice(2).trim())+'</p>';
+    return '<p>'+escapeHtml(p)+'</p>';
+  }).join('');
   document.getElementById('readerContent').innerHTML =
     '<h2>'+escapeHtml(ev.lieu||ev.date_affichee)+'</h2>'
     +'<p class="r-meta">'+escapeHtml(ev.date_affichee)+(ev.lieu?' · '+escapeHtml(ev.lieu):'')+'</p>'
-    +'<div class="r-article">'+ev.texte_complet.map(p=>'<p>'+escapeHtml(p)+'</p>').join('')+'</div>';
+    + body;
   reader.classList.add('open');
   reader.setAttribute('aria-hidden','false');
 }
