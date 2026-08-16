@@ -224,10 +224,15 @@ function renderThemeChips(){
 
 function renderZoneChips(){
   const row = document.getElementById('zoneRow');
-  const present = [...new Set(state.all.map(e=>e.zone_geo).filter(Boolean))];
+  row.querySelectorAll('.chip').forEach(c=>c.remove());
+  const source = state.view === 'frise'
+    ? state.all.filter(e=>e.annee!==null)
+    : state.all.filter(e=>e.annee===null);
+  const present = [...new Set(source.map(e=>e.zone_geo).filter(Boolean))];
   present.forEach(zone=>{
     const chip = document.createElement('button');
     chip.className = 'chip';
+    if(state.activeZones.has(zone)) chip.classList.add('active');
     chip.style.setProperty('--chip-color', 'var(--teal)');
     chip.innerHTML = '<span class="dot"></span>' + zone;
     chip.addEventListener('click', ()=>{
@@ -458,10 +463,6 @@ function renderAll(){
   if(state.view === 'frise'){ renderTimeline(dated); renderMap(dated); }
   else { renderUndatedList(undated); }
   syncZoomButtons();
-  const total = dated.length + undated.length;
-  document.getElementById('countLabel').textContent =
-    total + ' histoire' + (total>1?'s':'') + ' affichée' + (total>1?'s':'') + ' — '
-    + state.all.filter(e=>!e.auteur).length + ' en attente d\'auteur·ice sur l\'ensemble du fil.';
 }
 
 function renderUndatedList(list){
@@ -512,8 +513,10 @@ async function init(){
     document.getElementById('offlineList').hidden = state.view === 'frise';
     document.querySelector('.top-grid').classList.toggle('full-width', state.view !== 'frise'); // ← nouvelle ligne
     document.querySelector('.top-grid').classList.toggle('full-width', state.view !== 'frise');
-    state.activeThemes.clear();       // ← évite qu'un filtre invisible bloque tout
-    renderThemeChips();               // ← reconstruit la liste pour la vue active
+    state.activeThemes.clear();
+    state.activeZones.clear();
+    renderThemeChips();    
+    renderZoneChips();
     renderAll();
   });
 });
