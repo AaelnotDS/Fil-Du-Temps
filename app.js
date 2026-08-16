@@ -98,7 +98,7 @@ function rowsToEvents(rows){
       lieu: get('lieu'),
       lat: parseFloat(get('latitude')),
       lng: parseFloat(get('longitude')),
-      theme: get('theme'),
+      theme: get('theme').split(';').map(s=>s.trim()).filter(Boolean),
       zone_geo: get('zone_geo'),
       personnages: get('personnages').split(';').map(s=>s.trim()).filter(Boolean),
       resume: get('resume').split('||').map(s=>s.trim()).filter(Boolean),
@@ -160,12 +160,12 @@ function showLoadError(message){
 // ============================================================
 function matchesSearch(ev, q){
   if(!q) return true;
-  const hay = [ev.date_affichee, ev.lieu, ev.theme, ev.zone_geo, ...(ev.personnages||[])].join(' ').toLowerCase();
+  const hay = [ev.date_affichee, ev.lieu, (ev.theme||[]), ev.zone_geo, ...(ev.personnages||[])].join(' ').toLowerCase();
   return hay.includes(q.toLowerCase());
 }
 function filteredEvents(){
   const base = state.all.filter(ev=>{
-    const themeOk = state.activeThemes.size===0 || state.activeThemes.has(ev.theme);
+    const themeOk = state.activeThemes.size===0 || ev.theme.some(t=>state.activeThemes.has(t));
     const zoneOk = state.activeZones.size===0 || state.activeZones.has(ev.zone_geo);
     return themeOk && zoneOk && matchesSearch(ev, state.search);
   });
@@ -205,7 +205,7 @@ function renderEras(){
 
 function renderThemeChips(){
   const row = document.getElementById('themeRow');
-  const present = [...new Set(state.all.map(e=>e.theme).filter(Boolean))];
+  const present = [...new Set(state.all.flatMap(e=>e.theme).filter(Boolean))];
   present.forEach(theme=>{
     const chip = document.createElement('button');
     chip.className = 'chip';
@@ -288,7 +288,7 @@ function makeDivider(label){
 }
 
 function makeEventNode(ev, i){
-  const color = catColor(ev.theme);
+  const color = catColor(ev.theme[0]);
   const node = document.createElement('div');
   node.className = 'node ' + (i % 2 === 0 ? 'above' : 'below');
   node.style.setProperty('--node-color', color);
@@ -305,7 +305,7 @@ function makeEventNode(ev, i){
 }
 
 function makeGroupNode(label, items, bucket, level, i){
-  const color = catColor(items[0].theme);
+  const color = catColor(items[0].theme[0]);
   const node = document.createElement('div');
   node.className = 'node grouped ' + (i % 2 === 0 ? 'above' : 'below');
   node.style.setProperty('--node-color', color);
@@ -347,7 +347,7 @@ function renderMap(list){
   markersLayer.clearLayers();
   const withCoords = list.filter(e=>!isNaN(e.lat) && !isNaN(e.lng));
   withCoords.forEach(ev=>{
-    const color = catColor(ev.theme).startsWith('var') ? getComputedColor(catColor(ev.theme)) : catColor(ev.theme);
+    const color = catColor(ev.theme[0]).startsWith('var') ? getComputedColor(catColor(ev.theme[0])) : catColor(ev.theme[0]);
     const marker = L.circleMarker([ev.lat, ev.lng], {
       radius:7, color:'#12141c', weight:2, fillColor:color, fillOpacity:.95
     });
@@ -413,7 +413,9 @@ function openPanel(id){
     : '';
   
   content.innerHTML =
-    '<div class="p-cat"><span class="dot"></span>'+escapeHtml(ev.theme||'Non classé')+'</div>'
+    '<div class="p-cat-group">' + (ev.theme && ev.theme.length
+  ? ev.theme.map(t=>'<span class="p-cat" style="--p-color:'+catColor(t)+'"><span class="dot"></span>'+escapeHtml(t)+'</span>').join('')
+  : '<span class="p-cat">Non classé</span>') + '</div>'
     +'<h2>'+escapeHtml(ev.lieu||ev.date_affichee)+'</h2>'
     +'<p class="p-meta">'+escapeHtml(ev.date_affichee)+(ev.lieu?' · '+escapeHtml(ev.lieu):'')+'</p>'
     +'<div class="p-article">'+(ev.resume||[]).map(p=>'<p>'+escapeHtml(p)+'</p>').join('')+'</div>'
