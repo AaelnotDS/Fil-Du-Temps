@@ -27,7 +27,8 @@ const ERAS = [
   {id:'moyen-age', label:'Moyen Âge', min:500, max:1500},
   {id:'moderne', label:'Époque moderne', min:1500, max:1800},
   {id:'xixe', label:'XIXe siècle', min:1800, max:1900},
-  {id:'xxe', label:'XXe–XXIe siècle', min:1900, max:2100},
+  {id:'xxe', label:'XXe siècle', min:1900, max:2000},
+  {id:'xxie', label:'XXIe siècle', min:2000, max:2100},
 ];
 
 const REGION_BOUNDS = {
