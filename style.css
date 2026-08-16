@@ -112,6 +112,7 @@ button{font-family:inherit; cursor:pointer;}
 .panel-close:hover{background:var(--ink-text); color:var(--parchment);}
 .panel .p-cat{display:inline-flex; align-items:center; gap:.4rem; font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--p-color, var(--rust)); margin-bottom:.6rem;}
 .panel .p-cat .dot{width:7px; height:7px; border-radius:50%; background:var(--p-color, var(--rust));}
+.panel .p-cat-group{display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:.8rem;}
 .panel h2{font-family:'Fraunces', serif; font-size:1.6rem; line-height:1.15; font-weight:700; margin:0 0 .3rem; max-width:88%;}
 .panel .p-meta{font-family:'JetBrains Mono', monospace; font-size:.78rem; color:#5b5240; margin:0 0 1.2rem;}
 .panel .p-article p{font-size:1rem; line-height:1.68; margin:0 0 1rem;}
